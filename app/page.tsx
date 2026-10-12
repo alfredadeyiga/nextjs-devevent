@@ -3,7 +3,7 @@ import ExploreBtn from "@/components/ExploreBtn";
 import { IEvent } from "@/database/event.model";
 import { cacheLife } from "next/cache";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default async function HomePage() {
   "use cache";
