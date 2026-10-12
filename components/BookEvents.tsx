@@ -13,9 +13,12 @@ export default function BookEvents({
 }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const { success } = await createBooking({
       eventId,
@@ -26,14 +29,19 @@ export default function BookEvents({
       setSubmitted(true);
       posthog.capture("event_booked", { eventId, slug, email });
     } else {
+      alert("Error creating booking");
       console.error("Error creating booking");
       posthog.captureException("Error creating booking");
     }
+
+    setIsLoading(false);
   };
 
   return (
     <div id="book-event">
-      {submitted ? (
+      {isLoading ? (
+        <p className="text-sm">Loading...</p>
+      ) : submitted ? (
         <p className="text-sm">Thank you for signing up!</p>
       ) : (
         <form onSubmit={handleSubmit}>
